@@ -1,1 +1,55 @@
 # .github/workflows/review.yml
+
+# ----------------------------------------------------------
+# Workflow de Revisión de Código con IA
+# Analiza automáticamente los cambios de código en Pull Requests
+# Compatible con: OpenAI, Deepseek, Groq y proveedores compatibles
+# ----------------------------------------------------------
+
+name: AI Code Review Bot
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+
+# Variables de entorno accesibles en todo el workflow
+env:
+  g_token: ${{ secrets.GITHUB_TOKEN }}
+  g_repository: ${{ github.event.pull_request.base.repo.full_name }}
+  g_pr_number: ${{ github.event.number }}
+  api_key: ${{ secrets.OPENAI_TOKEN }}
+
+permissions:
+  contents: read            # Necesario para leer contenido del repositorio
+  pull-requests: write      # Necesario para publicar comentarios en el PR
+
+
+jobs:
+  ai-code-review:
+    name: Review del código con IA
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Configurar python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Ejecutar análisis código con IA
+        run: |
+          pip install -r requirements.txt
+          python main.py
+        env:
+          # Configuración del proveedor IA
+          base_url: https://api.groq.com/openai/v1   # Cambia la URL según tu proveedor IA
+          model: llama-3.3-70b-versatile           # Modelo de IA a utilizar            
+          temperature: 0.5                           # Qué tan creativo la respuesta(min 0.0 - máx 2.0) 
+          tokens: 2000                               # Max tokens de output
