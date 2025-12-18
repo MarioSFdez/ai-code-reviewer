@@ -19,6 +19,9 @@ Cuando se crea o actualiza un Pull Request en un repositorio de GitHub:
 
 5. El resultado se **publica** directamente **en el Pull Request** como comentario o reporte.
 
+## 💡 Flexibilidad en el uso de IA
+La aplicación es compatible con **distintos proveedores de IA** (OpenAI, Groq, DeepSeek, etc.), lo que permite utilizar **modelos con planes gratuitos o de bajo coste**, simplemente ajustando la configuración del workflow.
+
 ## 🧠 Tecnologías utilizadas
 - **Python**
 - **GitHub Actions**
@@ -100,7 +103,8 @@ env:
   temperature: 0.5
   tokens: 2000  
 ```
-El proyecto permite utilizar cualquier proveedor compatible con la API de OpenAI, simplemente cambiando la base_url y el model
+> [!NOTE]
+> El proyecto permite utilizar cualquier proveedor compatible con la API de OpenAI, simplemente cambiando la base_url y el model
 
 ### 🔁 Paso 4: Crear un Pull Request
 Una vez configurado el proyecto:
